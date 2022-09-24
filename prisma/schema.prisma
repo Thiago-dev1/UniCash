@@ -20,3 +20,22 @@ model User {
 
   @@map("users")
 }
+
+model Store {
+  id      String    @id @default(uuid())
+  name    String
+  Product Product[]
+
+  @@map("Shops")
+}
+
+model Product {
+  id    String @id @default(uuid())
+  name  String
+  value Int
+
+  Store   Store  @relation(fields: [StoreId], references: [id])
+  StoreId String
+
+  @@map("products")
+}

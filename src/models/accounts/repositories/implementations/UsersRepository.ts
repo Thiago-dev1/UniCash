@@ -5,6 +5,16 @@ import { IUsersRepository } from "../IUsersRepository"
 import { User } from "@prisma/client"
 
 class UsersRepository implements IUsersRepository {
+    async findById(id: string): Promise<User> {
+        const user = await prisma.user.findUnique({
+            where: {
+                id
+            }
+        })
+
+        return user
+    }
+
     async findByRegistration(registration: string): Promise<User> {
         const user = await prisma.user.findUnique({
             where: {

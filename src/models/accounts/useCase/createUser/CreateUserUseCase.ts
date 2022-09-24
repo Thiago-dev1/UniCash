@@ -1,4 +1,5 @@
 import { inject, injectable } from "tsyringe"
+import { hash } from "bcrypt"
 
 import { IUsersRepository } from "../../repositories/IUsersRepository"
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO"
@@ -21,7 +22,9 @@ class CreateUserUseCase {
             throw new AppError("User already exists")
         }
 
-        await this.userRepository.create({name, password, registration})
+        const passwordHash = await hash(password, 8)
+
+        await this.userRepository.create({name, password: passwordHash, registration})
         
     }
 }
