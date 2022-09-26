@@ -1,24 +1,21 @@
 import { prisma } from "../../../../database/prismaClient"
 
-import { Store } from "@prisma/client";
+import { Store, Product } from "@prisma/client";
 import { IShopsRepository } from "../IShopsRepository"
 
 
 class ShopsRepository implements IShopsRepository {
     
-    async listProductById(id: string, idProduct: string): Promise<Store[]> {
-        const product = await prisma.store.findMany({
+    async listProductById(id: string, idProduct: string): Promise<Product[]> {
+        const product = await prisma.product.findMany({
             where: {
-                id
+                StoreId: id,
+                id: idProduct
             },
-            include: {
-                Product: {
-                    where: {
-                        id: idProduct,
-                    }
-                }
-            }
+
         })
+
+        
 
         return product
     }

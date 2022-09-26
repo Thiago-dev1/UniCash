@@ -21,7 +21,7 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
 
 
     try {
-        const { sub: user_id } = verify(token, "b0d0f0fcccf4f45e6c4474bb3d58d128") as IPayload
+        const { sub: user_id } = verify(token, process.env.TOKEN_SECRET_KEY) as IPayload
 
         const usersRepository = new UsersRepository()
 
@@ -32,7 +32,8 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
         }
 
         req.user = {
-            id: user_id
+            id: user_id, 
+            balance:  (await user).balance
         }
 
         next()

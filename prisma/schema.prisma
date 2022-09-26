@@ -11,12 +11,14 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
+  id           String    @id @default(uuid())
   name         String
   password     String
-  registration String   @unique
+  registration String    @unique
+  balance      Int       @default(0)
   avatar       String?
-  createdAt    DateTime @default(now())
+  createdAt    DateTime  @default(now())
+  Request      Request[]
 
   @@map("users")
 }
@@ -34,8 +36,21 @@ model Product {
   name  String
   value Int
 
-  Store   Store  @relation(fields: [StoreId], references: [id])
+  Store   Store     @relation(fields: [StoreId], references: [id])
   StoreId String
+  Request Request[]
 
   @@map("products")
+}
+
+model Request {
+  id       String  @id @default(uuid())
+  Prodcut  Product @relation(fields: [ProdutId], references: [id])
+  ProdutId String
+  User     User    @relation(fields: [UserId], references: [id])
+  UserId   String
+
+  amountProduct Int @default(1)
+
+  @@map("Requests")
 }
