@@ -11,6 +11,5 @@ const authenticateUserController = new AuthenticateUserController()
 const requestUserController = new RequestUserController()
 
 authenticateRoutes.post("/sessions", authenticateUserController.handle)
-authenticateRoutes.post("/:id/:idProduct", ensureAuthenticated, requestUserController.handle)
 
 export { authenticateRoutes }
