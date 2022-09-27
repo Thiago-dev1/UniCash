@@ -11,7 +11,11 @@ class UsersRepository implements IUsersRepository {
     async updateBalance({ amount, id }: IUpdateBalance): Promise<void> {
         const user = await this.findById(id)
 
-        const upBalance = user.balance - amount
+        if(amount < 0) {
+            const upBalance = user.balance - amount
+        }
+
+        const upBalance = user.balance + amount
 
         await prisma.user.update({
             where: {
@@ -42,7 +46,7 @@ class UsersRepository implements IUsersRepository {
                 id
             }
         })
-
+        
         return user
     }
 
