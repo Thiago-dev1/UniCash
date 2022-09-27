@@ -33,7 +33,6 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
 
         req.user = {
             id: user_id, 
-            balance:  (await user).balance
         }
 
         next()

@@ -13,7 +13,6 @@ class UsersRepository implements IUsersRepository {
 
         const upBalance = user.balance - amount
 
-
         await prisma.user.update({
             where: {
                 id

@@ -15,7 +15,7 @@ class RequestUserController {
 
         const requestUserCase = container.resolve(RequestUserUseCase)
 
-        const requestUser = await requestUserCase.execute({UserId: user.id, ProdutId, balance: user.balance, StoreId, amountProduct })
+        const requestUser = await requestUserCase.execute({UserId: user.id, ProdutId, StoreId, amountProduct })
 
         return response.status(201).json(requestUser)
     }
