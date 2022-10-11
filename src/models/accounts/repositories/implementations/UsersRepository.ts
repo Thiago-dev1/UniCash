@@ -2,11 +2,35 @@ import { prisma } from "../../../../database/prismaClient"
 
 import { ICreateUserDTO } from "models/accounts/dtos/ICreateUserDTO"
 import { IUsersRepository } from "../IUsersRepository"
-import { Request, User } from "@prisma/client"
+import { Report, Request, User } from "@prisma/client"
 import { IcreateRequestUserDTO } from "models/accounts/dtos/ICreateRequestUserDTO"
 import { IUpdateBalance } from "models/accounts/dtos/IUpdateBalance"
+import { ICreateReportUserDTO } from "models/accounts/dtos/ICreateReportUser"
 
 class UsersRepository implements IUsersRepository {
+    async findByReportId(id: string): Promise<Report> {
+        const report = await prisma.report.findUnique({
+            where: {
+                idActivity: id
+            }
+        })
+
+        return report
+    }
+
+    async createReport({idActivity, userId, type, title, value, description, discipline }: ICreateReportUserDTO): Promise<void> {
+        await prisma.report.create({
+            data: {
+                idActivity,
+                userId, 
+                type, 
+                title, 
+                value, 
+                description, 
+                discipline
+            }
+        })
+    }
 
     async updateBalance({ id, amount }: IUpdateBalance): Promise<void> {
         const user = await this.findById(id)
@@ -35,6 +59,7 @@ class UsersRepository implements IUsersRepository {
             }
         })
 
+        
     }
 
     async requestUser({ ProdutId, UserId, amountProduct }: IcreateRequestUserDTO): Promise<Request> {

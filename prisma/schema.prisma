@@ -23,6 +23,7 @@ model User {
   avatar        String?
   createdAt     DateTime  @default(now())
   Request       Request[]
+  Report        Report[]
 
   @@map("users")
 }
@@ -45,6 +46,20 @@ model Product {
   Request Request[]
 
   @@map("products")
+}
+
+model Report {
+  id          String  @id @default(uuid())
+  idActivity  String  @unique
+  User        User    @relation(fields: [userId], references: [id])
+  userId      String
+  type        String
+  title       String
+  description String
+  value       Int
+  discipline  String?
+
+  @@map("reports")
 }
 
 model Request {
