@@ -8,21 +8,21 @@ import { IUpdateBalance } from "models/accounts/dtos/IUpdateBalance"
 
 class UsersRepository implements IUsersRepository {
 
-    async updateBalance({ amount, id }: IUpdateBalance): Promise<void> {
+    async updateBalance({ id, balance }: IUpdateBalance): Promise<void> {
         const user = await this.findById(id)
 
-        if(amount < 0) {
-            const upBalance = user.balance - amount
-        }
+        // if(amount < 0) {
+        //     const upBalance = user.balance - amount
+        // }
 
-        const upBalance = user.balance + amount
+        // const upBalance = user.balance + amount
 
         await prisma.user.update({
             where: {
                 id
             },
             data:{
-                balance: upBalance
+                balance
             }
         })
 
