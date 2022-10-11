@@ -1,6 +1,6 @@
 interface ITransferDTO {
     id: string,
-    registration: string,
+    cpf: string,
     amount: number
 }
 

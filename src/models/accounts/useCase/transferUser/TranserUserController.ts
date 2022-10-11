@@ -7,12 +7,12 @@ class TransferUserController {
 
     async handle(request:Request , response: Response):Promise<Response> {
         const {id} = request.user
-        const {registration, amount} = request.body
+        const {cpf, amount} = request.body
 
         const transferUserUseCase = container.resolve(TransferUserUseCase)
 
 
-        await transferUserUseCase.execute({id, amount, registration})
+        await transferUserUseCase.execute({id, amount, cpf})
 
         return response.status(201).send()
     }

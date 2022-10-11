@@ -13,7 +13,7 @@ class TransferUserUseCase {
         private usersRepository: IUsersRepository
     ) {}
 
-    async execute({id, amount, registration}: ITransferDTO): Promise<void> {
+    async execute({id, amount, cpf}: ITransferDTO): Promise<void> {
         // id = id do user logado no sistama
         // user
 
@@ -23,18 +23,22 @@ class TransferUserUseCase {
 
         const user = await this.usersRepository.findById(id)
 
-       
+
         if(user.balance <= 0) {
             throw new AppError("Insufficient funds")
         }
 
-        const userAlreadyExists = await this.usersRepository.findByRegistration(registration)
+        const userAlreadyExists = await this.usersRepository.findByCpf(cpf)
+
 
         if(userAlreadyExists == null) {
             throw new AppError("Invalid account")
         }
 
+        
+
         await this.usersRepository.updateBalance({id, amount: -amount})
+        
 
         await this.usersRepository.updateBalance({id: userAlreadyExists.id, amount})
     }

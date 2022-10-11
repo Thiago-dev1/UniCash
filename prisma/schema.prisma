@@ -11,14 +11,18 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  name         String
-  password     String
-  registration String    @unique
-  balance      Int       @default(0)
-  avatar       String?
-  createdAt    DateTime  @default(now())
-  Request      Request[]
+  id            String    @id @default(uuid())
+  name          String
+  password      String
+  registration  String    @unique
+  cpf           String    @unique
+  course        String
+  isAdmin       Boolean   @default(false)
+  isAShopkeeper Boolean   @default(false)
+  balance       Int       @default(0)
+  avatar        String?
+  createdAt     DateTime  @default(now())
+  Request       Request[]
 
   @@map("users")
 }

@@ -8,21 +8,30 @@ import { IUpdateBalance } from "models/accounts/dtos/IUpdateBalance"
 
 class UsersRepository implements IUsersRepository {
 
-    async updateBalance({ id, balance }: IUpdateBalance): Promise<void> {
+    async updateBalance({ id, amount }: IUpdateBalance): Promise<void> {
         const user = await this.findById(id)
 
-        // if(amount < 0) {
-        //     const upBalance = user.balance - amount
-        // }
 
-        // const upBalance = user.balance + amount
+        if(amount < 0) {
+            const upBalance = user.balance - amount
+            await prisma.user.update({
+                where: {
+                    id
+                },
+                data:{
+                    balance: upBalance
+                }
+            })
+        }
+
+        const upBalance = user.balance + amount
 
         await prisma.user.update({
             where: {
                 id
             },
             data:{
-                balance
+                balance: upBalance
             }
         })
 
@@ -50,22 +59,24 @@ class UsersRepository implements IUsersRepository {
         return user
     }
 
-    async findByRegistration(registration: string): Promise<User> {
+    async findByCpf(cpf: string): Promise<User> {
         const user = await prisma.user.findUnique({
             where: {
-                registration
+                cpf
             }
         })
 
         return user
     }
 
-    async create({ name, password, registration }: ICreateUserDTO): Promise<void> {
+    async create({ name, password, registration, cpf, course }: ICreateUserDTO): Promise<void> {
         await prisma.user.create({
             data: {
                 name,
                 password,
-                registration
+                registration,
+                cpf,
+                course
             }
         })
     }

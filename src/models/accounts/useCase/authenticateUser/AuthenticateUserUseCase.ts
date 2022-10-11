@@ -7,7 +7,7 @@ import { IUsersRepository } from "../../repositories/IUsersRepository"
 import { AppError } from "../../../../error/AppError"
 
 interface IRequest {
-    registration: string,
+    cpf: string,
     password: string
 }
 
@@ -28,9 +28,9 @@ class AuthenticateUserUseCase {
     ) {}
 
 
-    async execute({ registration, password }: IRequest): Promise<IReponse> {
+    async execute({ cpf, password }: IRequest): Promise<IReponse> {
 
-        const user = await this.userRepository.findByRegistration(registration)
+        const user = await this.userRepository.findByCpf(cpf)
 
         
 
