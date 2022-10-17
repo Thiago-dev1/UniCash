@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { verify } from "jsonwebtoken"
 
 import { UsersRepository } from "../models/accounts/repositories/implementations/UsersRepository"
+import { UsersTokensRepository } from "../models/accounts/repositories/implementations/UsersTokensRepository"
 import { AppError } from  "../error/AppError"
 
 
@@ -13,6 +14,8 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
 
     const authHeader = req.headers.authorization
 
+    const usersTokensRepository = new UsersTokensRepository()
+
     if (!authHeader) {
         throw new AppError("Token missing")
     }
@@ -23,13 +26,13 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
     try {
         const { sub: user_id } = verify(token, process.env.TOKEN_SECRET_KEY) as IPayload
 
-        const usersRepository = new UsersRepository()
+        // const usersRepository = new UsersRepository()
 
-        const user = usersRepository.findById(user_id)
+        // const user = usersRepository.findById(user_id)
 
-        if(!user) {
-            throw new AppError("User does not exists!")
-        }
+        // if(!user) {
+        //     throw new AppError("User does not exists!")
+        // }
 
         req.user = {
             id: user_id, 

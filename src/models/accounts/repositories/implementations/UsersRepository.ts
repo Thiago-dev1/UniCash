@@ -8,14 +8,20 @@ import { IUpdateBalance } from "models/accounts/dtos/IUpdateBalance"
 import { ICreateReportUserDTO } from "models/accounts/dtos/ICreateReportUser"
 
 class UsersRepository implements IUsersRepository {
+    
+    async listAllReport(): Promise<Report[]> {
+        const reports = await prisma.report.findMany({})
+        return reports
+    }
+
     async findByReportId(id: string): Promise<Report> {
-        const report = await prisma.report.findUnique({
+        const reports = await prisma.report.findUnique({
             where: {
                 idActivity: id
             }
         })
 
-        return report
+        return reports
     }
 
     async createReport({idActivity, userId, type, title, value, description, discipline }: ICreateReportUserDTO): Promise<void> {

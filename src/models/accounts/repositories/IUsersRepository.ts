@@ -12,6 +12,7 @@ interface IUsersRepository {
     requestUser({ProdutId, UserId}: IcreateRequestUserDTO): Promise<Request>
     createReport({idActivity ,userId, type, title, value, description, discipline}: ICreateReportUserDTO): Promise<void>
     findByReportId(id: string): Promise<Report>
+    listAllReport(): Promise<Report[]>
 }
 
 
