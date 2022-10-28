@@ -7,7 +7,31 @@ import { IcreateRequestUserDTO } from "models/accounts/dtos/ICreateRequestUserDT
 import { IUpdateBalance } from "models/accounts/dtos/IUpdateBalance"
 import { ICreateReportUserDTO } from "models/accounts/dtos/ICreateReportUser"
 
+interface IResponse {
+    name: string,
+    balance: number,
+    course: string
+}
+
 class UsersRepository implements IUsersRepository {
+    
+    async rank(nameCourse: string): Promise<IResponse[]> {
+        const rank = await prisma.user.findMany({
+            where: {
+                course: nameCourse
+            },
+            select: {
+                name: true,
+                balance: true,
+                course: true
+            },
+            orderBy: {
+                balance: "desc"
+            }
+        })
+
+        return rank
+    }
     
     async listAllReport(): Promise<Report[]> {
         const reports = await prisma.report.findMany({})
