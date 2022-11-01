@@ -7,6 +7,13 @@ import { prisma, Request } from "@prisma/client"
 
 import { AppError } from "../../../../error/AppError"
 
+interface ListReport {
+    id: string,
+    title: string,
+    value: number,
+    type: string
+}
+
 @injectable()
 class RequestUserUseCase {
     constructor(
@@ -26,8 +33,6 @@ class RequestUserUseCase {
 
 
         const product = await this.shopsRepository.listProductById(StoreId, ProdutId)
-        console.log(product[0].value)
-        console.log(user.balance)
 
         const amount = product[0].value * amountProduct
         
@@ -41,7 +46,7 @@ class RequestUserUseCase {
         }
 
         
-        await this.usersRepository.updateBalance({amount, id: UserId})
+        await this.usersRepository.updateBalance({amount: -amount, id: UserId})
         
 
         const requestUser = await this.usersRepository.requestUser({ProdutId, UserId, amountProduct})

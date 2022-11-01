@@ -35,12 +35,18 @@ class TransferUserUseCase {
             throw new AppError("Invalid account")
         }
 
+        if(userAlreadyExists.cpf === user.cpf) {
+            throw new AppError("Invalid transaction")
+        }
+
         
 
         await this.usersRepository.updateBalance({id, amount: -amount})
-        
+        await this.usersRepository.createStatement({title: userAlreadyExists.name, amount: -amount, id: user.id, type: "Saida"})
+
 
         await this.usersRepository.updateBalance({id: userAlreadyExists.id, amount})
+        await this.usersRepository.createStatement({title: user.name, amount: amount, id: userAlreadyExists.id, type: "Entrada"})
     }
 }
 

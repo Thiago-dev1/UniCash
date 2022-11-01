@@ -1,7 +1,17 @@
-import { Report } from "@prisma/client"
+import { Statement } from "@prisma/client"
 import { inject, injectable } from "tsyringe"
 
 import { IUsersRepository } from "../../repositories/IUsersRepository"
+
+
+interface ListReport {
+    id: string,
+    title: string,
+    description: string,
+    discipline: string,
+    value: number,
+    type: string
+}
 
 @injectable()
 class AccountStatementUseCase {
@@ -10,10 +20,10 @@ class AccountStatementUseCase {
         private usersRepository: IUsersRepository
     ) {}
 
-    async execute(): Promise<Report[]> {
-        const reports = await this.usersRepository.listAllReport()
+    async execute(id: string): Promise<Statement[]> {
+        const statements = await this.usersRepository.listStatements(id)
 
-        return reports
+        return statements
     }
 }
 

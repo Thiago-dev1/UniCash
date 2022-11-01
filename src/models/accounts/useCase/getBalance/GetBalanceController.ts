@@ -13,7 +13,7 @@ class GetBalanceController {
 
         const balance = await getBalanceUseCase.execute(id)
 
-        return response.status(200).json(balance)
+        return response.status(200).json({saldo: balance})
     }
 
 }
