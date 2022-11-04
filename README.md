@@ -5,3 +5,6 @@
 
 ### Rotas
     - https://documenter.getpostman.com/view/23913123/2s847ERZPd
+
+### Docker
+    - docker compose up

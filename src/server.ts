@@ -29,4 +29,4 @@ app.use((err: Error, request: Request, response: Response, next: NextFunction) =
     })
 })
 
-app.listen(3334, () => console.log("Server ON..."))
+app.listen(3333, () => console.log("Server ON..."))
